@@ -40,6 +40,9 @@ app.use(express.static('public'));
 app.use(UserRoute);
 app.use(UangKasRoute);
 app.use(AuthRoute);
+app.get('/', (req, res) => {
+    res.end('it works!');
+});
 
 app.listen(process.env.PORT, ()=>{
     console.log("Server up and running. . .");
