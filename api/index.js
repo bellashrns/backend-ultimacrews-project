@@ -3,10 +3,10 @@ import fileUpload from "express-fileupload";
 import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
-import UserRoute from "./routes/UserRoute.js";
-import UangKasRoute from "./routes/UangKasRoute.js";
-import AuthRoute from "./routes/AuthRoute.js";
-import corsOptions from "./config/corsOptions.js";
+import UserRoute from "../routes/UserRoute.js";
+import UangKasRoute from "../routes/UangKasRoute.js";
+import AuthRoute from "../routes/AuthRoute.js";
+import corsOptions from "../config/corsOptions.js";
 import mongoose from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -38,14 +38,17 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
+  const origin = req.get('referer');
+  const isWhitelisted = whitelist.find((w) => origin && origin.includes(w));
+  if (isWhitelisted) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+  }
+  // Pass to next layer of middleware
+  if (req.method === 'OPTIONS') res.sendStatus(200);
+  else next();
 });
 
 app.use(cors(corsOptions));

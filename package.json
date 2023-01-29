@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"npm start\" \"npm run client\"",
-    "start": "node index.js",
-    "server": "nodemon index.js"
+    "start": "node api/index.js",
+    "server": "nodemon api/index.js"
   },
   "keywords": [],
   "author": "",
