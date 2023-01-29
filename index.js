@@ -41,6 +41,6 @@ app.use(UserRoute);
 app.use(UangKasRoute);
 app.use(AuthRoute);
 
-app.listen('process.env.PORT', ()=>{
+app.listen(process.env.PORT, ()=>{
     console.log("Server up and running. . .");
 });
