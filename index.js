@@ -21,8 +21,6 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to Database'));
 
-const sessionStore = SequelizeStore(session.Store);
-
 app.use(session({
     secret: process.env.SESS_SECRET,
     resave: false,
@@ -34,7 +32,7 @@ app.use(session({
 
 app.use(cors({
     credentials: true,
-    origin: 'http://localhost:5173'
+    origin: 'https://backend-ultimacrews-project-fj9kgzqgu-bellashrns.vercel.app'
 }))
 app.use(express.json());
 app.use(fileUpload());
