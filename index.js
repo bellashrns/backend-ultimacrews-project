@@ -4,33 +4,49 @@ import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
 import UserRoute from "./routes/UserRoute.js";
-import UangKasRoute from "./routes/UangKasRoute.js"; 
+import UangKasRoute from "./routes/UangKasRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
 import corsOptions from "./config/corsOptions.js";
 import mongoose from "mongoose";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 dotenv.config();
 
 const app = express();
 
-mongoose.connect('mongodb+srv://bella:bellacantik@umnradio.5g0zvgm.mongodb.net/?retryWrites=true&w=majority', {
+mongoose.connect(
+  "mongodb+srv://bella:bellacantik@umnradio.5g0zvgm.mongodb.net/?retryWrites=true&w=majority",
+  {
     useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+    useUnifiedTopology: true,
+  }
+);
 
 const db = mongoose.connection;
-db.on('error', (error) => console.error(error));
-db.once('open', () => console.log('Connected to Database'));
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("Connected to Database"));
 
-app.use(session({
+app.use(
+  session({
     secret: process.env.SESS_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: 'auto'
-    }
-}));
+      secure: "auto",
+    },
+  })
+);
+
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Credentials", true);
+  next();
+});
 
 app.use(cors(corsOptions));
 app.use(express.json());
@@ -43,10 +59,10 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.use(UserRoute);
 app.use(UangKasRoute);
 app.use(AuthRoute);
-app.get('/', (req, res) => {
-    res.end('it works!');
+app.get("/", (req, res) => {
+  res.end("it works!");
 });
 
-app.listen(process.env.PORT, ()=>{
-    console.log("Server up and running. . .");
+app.listen(process.env.PORT, () => {
+  console.log("Server up and running. . .");
 });
