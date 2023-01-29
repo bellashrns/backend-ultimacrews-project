@@ -1,69 +1,31 @@
-import { Sequelize } from "sequelize";
-import db from "../config/Database.js";
-import Users from "./UserModel.js";
+import mongoose from "mongoose";
 
-const {DataTypes} = Sequelize;
-
-const UangKas = db.define('uangkas',{
-    uuid:{
-        type: DataTypes.STRING,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
+const UangKas = new mongoose.Schema({
+    // userId:{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     required: true,
+    //     ref: 'UserModel'
+    // },
     image:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: true
     },
     url:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: true
     },
     bulan:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: true
     },
     notes:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: false
-        }
+        type: String,
+        required: false
     },
     status:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    // userId:{
-    //     type: DataTypes.STRING,
-    //     allowNull: false,
-    //     validate: {
-    //         notEmpty: true
-    //     },
-    //     references: {
-    //         model: Users,
-    //         key: 'uuid'
-    //     }
-    // }
-},{
-    freezeTableName: true
+        type: String,
+        required: true
+    }
 });
 
-Users.hasMany(UangKas);
-UangKas.belongsTo(Users, {foreignKey: 'userId'});
-
-export default UangKas;
+export default mongoose.model("UangKas", UangKas);

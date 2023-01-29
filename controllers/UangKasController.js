@@ -7,7 +7,7 @@ export const getUangKas = async (req, res) => {
   try {
     let response;
     if (req.role === "bendahara" || req.role === "admin") {
-      response = await UangKas.findAll({
+      response = await UangKas.find({
         include: [
           {
             model: User,
@@ -15,7 +15,7 @@ export const getUangKas = async (req, res) => {
         ],
       });
     } else {
-      response = await UangKas.findAll({
+      response = await UangKas.find({
         where: {
           userId: req.userId,
         },
@@ -46,100 +46,81 @@ export const getUangKasById = async (req, res) => {
 };
 
 export const createUangkas = async (req, res) => {
-  if (req.files === null)
-    return res.status(400).json({ msg: "No File Uploaded" });
   const { bulan, notes, status } = req.body;
-  const file = req.files.file;
-  const fileSize = file.data.length;
-  const ext = path.extname(file.name);
-  const fileName = file.md5 + ext;
+  let file = req.file.path;
+
+  file = file.replace(/\\/g, "/");
+
+  const fileName = req.file.filename;
+
+  if (!file) {
+    return res.status(400).json({ msg: "No File Uploaded" });
+  }
+
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
-  const allowedType = [".png", ".jpg", ".jpeg"];
 
-  if (!allowedType.includes(ext.toLocaleLowerCase()))
-    return res.status(422).json({ msg: "Invalid Image!" });
-  if (fileSize > 5000000)
-    return res.status(422).json({ msg: "Image must be less than 5 MB" });
-
-  file.mv(`./public/images/${fileName}`, async (err) => {
-    if (err) return res.status(500).json({ msg: err.message });
-    try {
-      await UangKas.create({
-        image: fileName,
-        url: url,
-        bulan: bulan,
-        notes: notes,
-        status: status,
-      });
-      res.status(201).json({ msg: "Uang Kas berhasil disubmit!" });
-    } catch (error) {
-      console.log(error.message);
-    }
+  const uangkas = await UangKas.create({
+    image: file,
+    url: url,
+    bulan: bulan,
+    notes: notes,
+    status: status,
   });
+
+  if (uangkas) {
+    res.status(201).json({ msg: "Pembayaran Uang Kas Uploaded" });
+  } else {
+    res.status(400).json({ msg: "Invalid Uang Kas Data" });
+  }
 };
 
 export const updateUangKas = async (req, res) => {
-  const buktiTRF = await UangKas.findOne({
+  const uangkas = await UangKas.findOne({
     where: {
       id: req.params.id,
     },
   });
-  if (!buktiTRF) return res.status(404).json({ msg: "Uang Kas not found!" });
-  let fileName = "";
-  if (req.files === null) {
-    fileName = UangKas.image;
-  } else {
-    const file = req.files.file;
-    const fileSize = file.data.length;
-    const ext = path.extname(file.name);
-    fileName = file.md5 + ext;
-    const allowedType = [".png", ".jpg", ".jpeg"];
-
-    if (!allowedType.includes(ext.toLocaleLowerCase()))
-      return res.status(422).json({ msg: "Invalid Image!" });
-    if (fileSize > 5000000)
-      return res.status(422).json({ msg: "Image must be less than 5 MB" });
-
-    fs.unlinkSync(`./public/images/${buktiTRF.image}`);
-
-    file.mv(`./public/images/${fileName}`, (err) => {
-      if (err) return res.status(500).json({ msg: err.message });
-    });
-  }
+  if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
 
   const { bulan, notes, status } = req.body;
-  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`;
-  try {
-    await UangKas.update(
-        {
-            image: fileName,
-            url: url,
-            bulan: bulan,
-            notes: notes,
-            status: status,
-        },
-        {
-            where: {
-                id: req.params.id,
-            },
-        }
-    );
-    res.status(200).json({ msg: "Uang Kas berhasil diupdate!" });
-  } catch (error) {
-    console.log(error.message);
+
+  let file = req.file.path;
+
+  if (!file) {
+    return res.status(400).json({ msg: "No File Uploaded" });
+  }
+
+  file = file.replace(/\\/g, "/");
+
+  const fileName = req.file.filename;
+
+  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
+
+  uangkas.image = file;
+  uangkas.url = url;
+  uangkas.bulan = bulan;
+  uangkas.notes = notes;
+  uangkas.status = status;
+
+  const updatedUangKas = await uangkas.save();
+
+  if (updatedNote) {
+    res.status(201).json({ message: `Uang Kas updated` });
+  } else {
+    res.status(400).json({ message: "Invalid uang kas data received" });
   }
 };
 
 export const deleteUangKas = async (req, res) => {
-  const buktiTRF = await UangKas.findOne({
+  const uangkas = await UangKas.findOne({
     where: {
       id: req.params.id,
     },
   });
-  if (!buktiTRF) return res.status(404).json({ msg: "Uang Kas not found!" });
+  if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
   try {
-    fs.unlinkSync(`./public/images/${buktiTRF.image}`);
-    await UangKas.destroy({
+    fs.unlinkSync(`${uangkas.image}`);
+    await UangKas.deleteOne({
       where: {
         id: req.params.id,
       },

@@ -1,119 +1,62 @@
-import { Sequelize } from "sequelize";
-import db from "../config/Database.js";
+import mongoose from "mongoose";
 
-const {DataTypes} = Sequelize;
-
-const Users = db.define('users',{
-    uuid:{
-        type: DataTypes.STRING,
-        defaultValue: DataTypes.UUIDV4,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    name:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            len: [3, 100]
-        }
+const UserModel = new mongoose.Schema({
+    username:{
+        type: String,
+        required: true
     },
     tempatLahir:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     tanggalLahir:{
-        type: DataTypes.DATE,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: Date,
+        required: false
     },
     nim:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     jurusan:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     angkatan:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     nomorTelp:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     lineId:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     instagram:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     alamat:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     },
     email:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true,
-            isEmail: true
-        }
+        type: String,
+        required: true
     },
     password:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: true
     },
     role:{
-        type: DataTypes.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: true
     },
     image:{
-        type: DataTypes.STRING,
-        allowNull: true,
-        validate: {
-            notEmpty: true
-        }
+        type: String,
+        required: false
     }
-},{
-    freezeTableName: true
 });
 
-export default Users;
+export default mongoose.model("UserModel", UserModel);
