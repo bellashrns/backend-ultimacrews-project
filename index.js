@@ -8,6 +8,8 @@ import UangKasRoute from "./routes/UangKasRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
 import corsOptions from "./config/corsOptions.js";
 import mongoose from "mongoose";
+import path from "path";
+import { fileURLToPath } from 'url';
 dotenv.config();
 
 const app = express();
@@ -33,7 +35,11 @@ app.use(session({
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(fileUpload());
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "/public")));
+
 app.use(UserRoute);
 app.use(UangKasRoute);
 app.use(AuthRoute);
