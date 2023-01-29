@@ -1,6 +1,7 @@
 const allowedOrigins = [
     'http://localhost:3000',
-    'https://backend-ultimacrews-project.vercel.app'
+    'https://backend-ultimacrews-project.vercel.app',
+    'https://ultimacrews-project.vercel.app'
 ]
 
 export default allowedOrigins;
