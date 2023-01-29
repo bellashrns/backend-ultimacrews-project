@@ -3,10 +3,10 @@ import fileUpload from "express-fileupload";
 import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
-import SequelizeStore from "connect-session-sequelize";
 import UserRoute from "./routes/UserRoute.js";
 import UangKasRoute from "./routes/UangKasRoute.js"; 
 import AuthRoute from "./routes/AuthRoute.js";
+import corsOptions from "./config/corsOptions.js";
 import mongoose from "mongoose";
 dotenv.config();
 
@@ -30,13 +30,10 @@ app.use(session({
     }
 }));
 
-app.use(cors({
-    credentials: true,
-    origin: 'https://backend-ultimacrews-project-fj9kgzqgu-bellashrns.vercel.app'
-}))
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(fileUpload());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, "/public")));
 app.use(UserRoute);
 app.use(UangKasRoute);
 app.use(AuthRoute);
