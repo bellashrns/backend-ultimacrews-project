@@ -69,7 +69,7 @@ export const updatePassword = async (req, res) => {
     user.username = username;
 
     if (password) {
-        user.password = await bcrypt.hash(password, 10);
+        user.password = await argon2.hash(password);
     };
 
     const updatedUser = await user.save();
