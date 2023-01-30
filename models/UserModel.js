@@ -10,7 +10,7 @@ const UserModel = new mongoose.Schema({
         required: false
     },
     tanggalLahir:{
-        type: Date,
+        type: String,
         required: false
     },
     nim:{
