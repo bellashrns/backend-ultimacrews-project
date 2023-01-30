@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
         return res.status(400).json({ message: 'Username already exists' });
     };
 
-    const hashedPassword = await argon2.hash(password, 10); // 10 is the salt
+    const hashedPassword = await argon2.hash(password); // 10 is the salt
 
     const userObject = { username, password: hashedPassword, email, role };
 
