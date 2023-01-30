@@ -17,6 +17,10 @@ const UserModel = new mongoose.Schema({
         type: String,
         required: false
     },
+    divisi:{
+        type: String,
+        required: false
+    },
     jurusan:{
         type: String,
         required: false
