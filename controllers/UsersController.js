@@ -1,6 +1,6 @@
 import UserModel from "../models/UserModel.js";
 import UangKas from "../models/UangKas.js";
-import argon2 from "argon2";
+import bcrypt from "bcrypt";
 
 export const getUsers = async (req, res) => {
     try {
@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
         return res.status(400).json({ message: 'Username already exists' });
     };
 
-    const hashedPassword = await argon2.hash(password); // 10 is the salt
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt
 
     const userObject = { username, password: hashedPassword, email, role };
 
@@ -69,7 +69,7 @@ export const updatePassword = async (req, res) => {
     user.username = username;
 
     if (password) {
-        user.password = await argon2.hash(password);
+        user.password = await bcrypt.hash(password, 10);
     };
 
     const updatedUser = await user.save();
