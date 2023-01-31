@@ -9,7 +9,7 @@ export const login = async(req,res)=>{
     if(!user) return res.status(404).json({msg: "User tidak ditemukan!"});
     const match = await argon2.verify(user.password, req.body.password);
     if(!match) return res.status(400).json({msg: "Wrong Password!"});
-    request.session.userId = user._id;
+    req.session.userId = user._id;
     const id = user.id;
     const username = user.username;
     const email = user.email;
@@ -19,7 +19,7 @@ export const login = async(req,res)=>{
 }
 
 export const Me = async(req,res)=>{
-    if(!request.session.userId){
+    if(!req.session.userId){
         return res.status(401).json({msg: "Mohon login ke akun anda!"});
     } 
     const user = await UserModel.findOne({
