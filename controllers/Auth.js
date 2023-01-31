@@ -19,10 +19,7 @@ export const login = async (req, res) => {
 
 export const Me = async (req, res) => {
 	if (!req.session.userId) {
-		// res.status(401).json({ msg: "Mohon login ke akun anda!" });
-		// console.log(req.session.username);
 		return res.status(401).json({ msg: "Mohon login ke akun anda!" });
-		// console user username from session
 	}
 	const user = await UserModel.findOne({
 		_id: req.session.userId,
@@ -32,7 +29,7 @@ export const Me = async (req, res) => {
 };
 
 export const logOut = async (req, res) => {
-	request.session.destroy((err) => {
+	req.session.destroy((err) => {
 		if (err) return response.status(400).json({ msg: "Tidak dapat logout" });
 		res.status(200).json({ msg: "Anda telah logout." });
 	});

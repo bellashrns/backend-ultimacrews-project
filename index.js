@@ -27,6 +27,7 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
 app.use(cookieParser());
+const d = 1000 * 60 * 60 * 24;
 app.use(
 	session({
 		name: "userId",
