@@ -37,7 +37,7 @@ app.use(
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 48,
 			secure: true,
-			sameSite: "Strict",
+			sameSite: "Lax",
 			httpOnly: true, // dont let browser javascript access cookie ever
 			ephemeral: true,
 			// delete this cookie while browser close
