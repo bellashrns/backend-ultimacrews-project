@@ -1,11 +1,11 @@
 import mongoose from "mongoose";
 
 const UangKas = new mongoose.Schema({
-    // userId:{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     required: true,
-    //     ref: 'UserModel'
-    // },
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'UserModel'
+    },
     image:{
         type: String,
         required: true

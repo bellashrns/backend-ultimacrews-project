@@ -8,11 +8,11 @@ export const getUangKas = async (req, res) => {
     let response;
     if (req.role === "bendahara" || req.role === "admin") {
       response = await UangKas.find({
-        include: [
-          {
+        // include: [
+        //   {
             model: User,
-          },
-        ],
+        //   },
+        // ],
       });
     } else {
       response = await UangKas.find({
@@ -58,6 +58,7 @@ export const createUangkas = async (req, res) => {
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
 
   const uangkas = await UangKas.create({
+    userId: req.userId,
     image: file,
     url: url,
     bulan: bulan,
