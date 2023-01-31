@@ -27,17 +27,18 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
 app.use(cookieParser());
-const d = 1000 * 60 * 60 * 24;
 app.use(
 	session({
 		secret: process.env.SESS_SECRET,
 		resave: true,
 		saveUninitialized: true,
 		name: "userId",
+		proxy: true,
 		cookie: {
+			maxAge: 1000 * 60 * 60 * 48,
 			secure: true,
 			sameSite: "none",
-			httpOnly: false, // dont let browser javascript access cookie ever
+			httpOnly: true, // dont let browser javascript access cookie ever
 			ephemeral: true,
 			// delete this cookie while browser close
 		},
