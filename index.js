@@ -30,16 +30,18 @@ db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
 app.use(cookieParser());
+const d = 1000 * 60 * 60 * 24;
 app.use(
   session({
     name: "userId",
-    secret: process.env.SESS_SECRET,
-    resave: false,
+    // secret: process.env.SESS_SECRET,
+    secret: "bellacantik",
+    resave: true,
     saveUninitialized: true,
     cookie: {
       // secure: "true",
-      sameSite: 'lax',
-      maxAge: 1000 * 60 * 60 * 24,
+      sameSite: 'Lax',
+      maxAge: d,
     },
     store: new MongoStore({
       mongoUrl: process.env.DATABASE_URL,
