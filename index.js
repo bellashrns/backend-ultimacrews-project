@@ -36,6 +36,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: "auto",
+      sameSite: 'strict',
     },
     store: new MongoStore({
       mongoUrl: "mongodb+srv://bella:bellacantik@umnradio.5g0zvgm.mongodb.net/?retryWrites=true&w=majority",
