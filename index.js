@@ -37,8 +37,9 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: "true",
-      sameSite: 'strict',
+      // secure: "true",
+      // sameSite: 'strict',
+      maxAge: 1000 * 60 * 60 * 24,
     },
     store: new MongoStore({
       mongoUrl: process.env.DATABASE_URL,
