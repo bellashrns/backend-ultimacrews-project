@@ -31,11 +31,12 @@ db.once("open", () => console.log("Connected to Database"));
 app.use(cookieParser());
 app.use(
   session({
+    name: "userId",
     secret: process.env.SESS_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
-      secure: "auto",
+      secure: "true",
       sameSite: 'strict',
     },
     store: new MongoStore({
