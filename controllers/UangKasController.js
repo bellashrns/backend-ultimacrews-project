@@ -16,14 +16,14 @@ export const getUangKas = async (req, res) => {
       });
     } else {
       response = await UangKas.find({
-        where: {
+        // where: {
           userId: req.userId,
-        },
-        include: [
-          {
+        // },
+        // include: [
+          // {
             model: User,
-          },
-        ],
+        //   },
+        // ],
       });
     }
     res.status(200).json(response);
@@ -35,9 +35,7 @@ export const getUangKas = async (req, res) => {
 export const getUangKasById = async (req, res) => {
   try {
     const response = await UangKas.findOne({
-      where: {
-        id: req.params.id,
-      },
+      _id: req.params.id
     });
     res.status(200).json(response);
   } catch (error) {
@@ -76,9 +74,7 @@ export const createUangkas = async (req, res) => {
 
 export const updateUangKas = async (req, res) => {
   const uangkas = await UangKas.findOne({
-    where: {
-      id: req.params.id,
-    },
+      _id: req.params.id
   });
   if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
 
@@ -104,7 +100,7 @@ export const updateUangKas = async (req, res) => {
 
   const updatedUangKas = await uangkas.save();
 
-  if (updatedNote) {
+  if (updatedUangKas) {
     res.status(201).json({ message: `Uang Kas updated` });
   } else {
     res.status(400).json({ message: "Invalid uang kas data received" });
@@ -113,17 +109,13 @@ export const updateUangKas = async (req, res) => {
 
 export const deleteUangKas = async (req, res) => {
   const uangkas = await UangKas.findOne({
-    where: {
-      id: req.params.id,
-    },
+      _id: req.params.id
   });
   if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
   try {
     fs.unlinkSync(`${uangkas.image}`);
     await UangKas.deleteOne({
-      where: {
-        id: req.params.id,
-      },
+      _id: req.params.id
     });
     res.status(200).json({ msg: "Uang Kas berhasil dihapus!" });
   } catch (error) {
