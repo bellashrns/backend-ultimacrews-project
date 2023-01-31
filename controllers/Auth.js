@@ -10,12 +10,12 @@ export const login = async(req,res)=>{
     const match = await argon2.verify(user.password, req.body.password);
     if(!match) return res.status(400).json({msg: "Wrong Password!"});
     request.session.userId = user._id;
-    const _id = user._id;
+    const id = user.id;
     const username = user.username;
     const email = user.email;
     const role = user.role;
-    res.status(200).json([_id, username, email, role]);
-    response.send(req.session.userId);
+    res.status(200).json([id, username, email, role]);
+    response.send(request.session.userId);
 }
 
 export const Me = async(req,res)=>{
@@ -30,8 +30,8 @@ export const Me = async(req,res)=>{
 }
 
 export const logOut = async (req,res) => {
-    req.session.destroy((err)=>{
-        if(err) return res.status(400).json({msg: "Tidak dapat logout"});
+    request.session.destroy((err)=>{
+        if(err) return response.status(400).json({msg: "Tidak dapat logout"});
         res.status(200).json({msg: "Anda telah logout."});
     });
 }
