@@ -1,6 +1,5 @@
 import UserModel from "../models/UserModel.js";
 import argon2 from "argon2";
-import { request, response } from "express";
 
 export const login = async(req,res)=>{
     const user = await UserModel.findOne({
@@ -15,7 +14,7 @@ export const login = async(req,res)=>{
     const email = user.email;
     const role = user.role;
     res.status(200).json([id, username, email, role]);
-    response.send(req.session.userId);
+    res.send(req.session.userId);
 }
 
 export const Me = async(req,res)=>{
