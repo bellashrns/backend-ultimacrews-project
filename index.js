@@ -38,7 +38,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       // secure: "true",
-      sameSite: 'Lax',
+      sameSite: 'lax',
       maxAge: 1000 * 60 * 60 * 24,
     },
     store: new MongoStore({
@@ -47,7 +47,6 @@ app.use(
     }),
   })
 );
-
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
