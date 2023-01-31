@@ -30,17 +30,17 @@ app.use(cookieParser());
 const d = 1000 * 60 * 60 * 24;
 app.use(
 	session({
-		name: "userId",
 		secret: process.env.SESS_SECRET,
+		resave: true,
 		saveUninitialized: true,
+		name: "userId",
 		cookie: {
-			sameSite: "Lax",
+			secure: true,
+			sameSite: "none",
+			httpOnly: false, // dont let browser javascript access cookie ever
+			ephemeral: true,
+			// delete this cookie while browser close
 		},
-		resave: false,
-		httpOnly: true, // dont let browser javascript access cookie ever
-		secure: true, // only use cookie over https
-		ephemeral: true,
-		// delete this cookie while browser close
 		store: new MongoStore({
 			mongoUrl: process.env.DATABASE_URL,
 			collection: "sessions",
