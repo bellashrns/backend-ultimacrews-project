@@ -17,7 +17,7 @@ const app = express();
 app.use(express.json());
 
 mongoose.connect(
-  "mongodb+srv://bella:bellacantik@umnradio.5g0zvgm.mongodb.net/?retryWrites=true&w=majority",
+  process.env.DATABASE_URL,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -28,20 +28,24 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
+const store = new MongoStore({
+  collection: "userSessions",
+  uri: process.env.DATABASE_URL,
+  expires: 1000,
+});
+
 app.use(cookieParser());
 app.use(
   session({
-    name: "userId",
+    name: "ultimacrews",
     secret: process.env.SESS_SECRET,
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
-      secure: "true",
-      sameSite: 'strict',
+      secure: "auto",
+      sameSite: 'false',
     },
-    store: new MongoStore({
-      mongoUrl: "mongodb+srv://bella:bellacantik@umnradio.5g0zvgm.mongodb.net/?retryWrites=true&w=majority",
-    }),
+    store: store
   })
 );
 

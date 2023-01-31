@@ -1,5 +1,6 @@
 import UserModel from "../models/UserModel.js";
 import argon2 from "argon2";
+import { response } from "express";
 
 export const login = async(req,res)=>{
     const user = await UserModel.findOne({
@@ -8,12 +9,13 @@ export const login = async(req,res)=>{
     if(!user) return res.status(404).json({msg: "User tidak ditemukan!"});
     const match = await argon2.verify(user.password, req.body.password);
     if(!match) return res.status(400).json({msg: "Wrong Password!"});
-    req.session.userId = user._id;
+    res.session.userId = user._id;
     const _id = user._id;
     const username = user.username;
     const email = user.email;
     const role = user.role;
     res.status(200).json([_id, username, email, role]);
+    // response.send
 }
 
 export const Me = async(req,res)=>{
