@@ -37,7 +37,7 @@ app.use(
 			sameSite: "Lax",
 		},
 		resave: false,
-		// httpOnly: true, // dont let browser javascript access cookie ever
+		httpOnly: true, // dont let browser javascript access cookie ever
 		secure: true, // only use cookie over https
 		ephemeral: true,
 		// delete this cookie while browser close
