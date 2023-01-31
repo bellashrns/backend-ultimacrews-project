@@ -38,7 +38,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       // secure: "true",
-      // sameSite: 'strict',
+      sameSite: 'Lax',
       maxAge: 1000 * 60 * 60 * 24,
     },
     store: new MongoStore({
