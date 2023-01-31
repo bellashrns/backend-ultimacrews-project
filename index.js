@@ -1,5 +1,4 @@
 import express from "express";
-import fileUpload from "express-fileupload";
 import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
@@ -15,6 +14,7 @@ import MongoStore from "connect-mongo";
 dotenv.config();
 
 const app = express();
+app.use(express.json());
 
 mongoose.connect(
   "mongodb+srv://bella:bellacantik@umnradio.5g0zvgm.mongodb.net/?retryWrites=true&w=majority",
@@ -45,8 +45,6 @@ app.use(
 );
 
 app.use(cors(corsOptions));
-app.use(express.json());
-app.use(fileUpload());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
