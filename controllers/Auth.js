@@ -14,7 +14,7 @@ export const login = async (req, res) => {
 	const email = user.email;
 	const role = user.role;
 	res.status(200).json([id, username, email, role]);
-	res.send(req.session.userId);
+	// res.send(req.session.userId);
 };
 
 export const Me = async (req, res) => {
