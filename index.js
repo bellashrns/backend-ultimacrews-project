@@ -28,24 +28,21 @@ const db = mongoose.connection;
 db.on("error", (error) => console.error(error));
 db.once("open", () => console.log("Connected to Database"));
 
-const store = new MongoStore({
-  collection: "userSessions",
-  uri: process.env.DATABASE_URL,
-  expires: 1000,
-});
-
 app.use(cookieParser());
 app.use(
   session({
-    name: "ultimacrews",
+    name: "userId",
     secret: process.env.SESS_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
-      secure: "auto",
-      sameSite: 'false',
+      secure: "true",
+      sameSite: 'strict',
     },
-    store: store
+    store: new MongoStore({
+      mongoUrl: process.env.DATABASE_URL,
+      collection: "sessions",
+    }),
   })
 );
 
