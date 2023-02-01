@@ -60,7 +60,7 @@ export const createUangkas = async (req, res) => {
   const url = `${req.protocol}://${req.get("host")}/tmp/${fileName}`; // "host" bakal jadi domain
 
   const uangkas = await UangKas.create({
-    userId: req.userId,
+    userId: req._id,
     image: file,
     url: url,
     bulan: bulan,
