@@ -63,10 +63,10 @@ export const createUser = async (req, res) => {
 };
 
 export const updatePassword = async (req, res) => {
-    const { username, password } = req.body;
+    const { password, newPassword, confirmPassword } = req.body;
     const id = req.params.id;
 
-    if (!username || !password) {
+    if ( !password || !newPassword || !confirmPassword) {
         return res.status(400).json({ message: 'Please fill in all fields' });
     };
 
@@ -76,22 +76,21 @@ export const updatePassword = async (req, res) => {
         return res.status(404).json({ message: 'User not found' });
     };
 
-    const duplicate = await UserModel.findOne({ username });
+	const match = await argon2.verify(user.password, req.body.password);
+	if (!match) return res.status(400).json({ msg: "Wrong Password!" });
 
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(400).json({ message: 'Username already exists' });
+    if (newPassword !== confirmPassword) {
+        return res.status(400).json({ message: 'Passwords do not match' });
     };
 
-    user.username = username;
-
     if (password) {
-        user.password = await argon2.hash(password);
+        user.password = await argon2.hash(newPassword);
     };
 
     const updatedUser = await user.save();
 
     if (updatedUser) {
-        res.status(201).json({ message: `User ${updatedUser.username}'s password updated` });
+        res.status(201).json({ message: `User ${user.username}'s password updated` });
     } else {
         res.status(400).json({ message: 'Invalid user data received' });
     };
