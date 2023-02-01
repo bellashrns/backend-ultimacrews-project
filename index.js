@@ -51,7 +51,7 @@ app.use(
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-app.use(express.static(path.join(__dirname, "/public/images")));
+app.use(express.static(path.join(__dirname, "/tmp")));
 
 app.use(UserRoute);
 app.use(UangKasRoute);
