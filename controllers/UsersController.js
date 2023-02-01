@@ -21,7 +21,7 @@ export const getUserById = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-    const { username, password, email, role } = req.body;
+    const {username, tempatLahir, tanggalLahir, nim, divisi, jurusan, angkatan, nomorTelp, lineId, instagram, alamat, email, password, role, image} = req.body;
 
     if (!username || !password || !email || !role) {
         return res.status(400).json({ message: 'Please fill in all fields' });
@@ -35,7 +35,23 @@ export const createUser = async (req, res) => {
 
     const hashedPassword = await argon2.hash(password); // 10 is the salt
 
-    const userObject = { username, password: hashedPassword, email, role };
+    const userObject = {
+        username,
+        tempatLahir,
+        tanggalLahir,
+        nim,
+        divisi,
+        jurusan,
+        angkatan,
+        nomorTelp,
+        lineId,
+        instagram,
+        alamat,
+        email,
+        password: hashedPassword,
+        role,
+        image
+    };
 
     const user = await UserModel.create(userObject);
 
