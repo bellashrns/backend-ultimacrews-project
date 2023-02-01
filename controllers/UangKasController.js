@@ -55,7 +55,7 @@ export const createUangkas = async (req, res) => {
     return res.status(400).json({ msg: "No File Uploaded" });
   }
 
-  fs.writeFileSync(file, req.file.buffer);
+  // fs.writeFileSync(file, req.file.buffer);
 
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
 
