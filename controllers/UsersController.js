@@ -33,14 +33,6 @@ export const createUser = async (req, res) => {
         return res.status(400).json({ message: 'Username already exists' });
     };
 
-    const input = [tempatLahir, tanggalLahir, nim, divisi, jurusan, angkatan, nomorTelp, lineId, instagram, alamat, image];
-
-    input.forEach((item) => {
-        if (item === null) {
-            item = '';
-        }
-    });
-
     const hashedPassword = await argon2.hash(password); // 10 is the salt
 
     const userObject = {

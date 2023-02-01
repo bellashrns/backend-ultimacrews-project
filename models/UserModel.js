@@ -7,43 +7,53 @@ const UserModel = new mongoose.Schema({
     },
     tempatLahir:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     tanggalLahir:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     nim:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     divisi:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     jurusan:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     angkatan:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     nomorTelp:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     lineId:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     instagram:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     alamat:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     },
     email:{
         type: String,
@@ -59,7 +69,8 @@ const UserModel = new mongoose.Schema({
     },
     image:{
         type: String,
-        required: false
+        required: false,
+        default: ""
     }
 });
 
