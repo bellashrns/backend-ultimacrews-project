@@ -10,18 +10,18 @@ export const getUangKas = async (req, res) => {
       response = await UangKas.find({
         // include: [
         //   {
-            model: User,
+        model: User,
         //   },
         // ],
       });
     } else {
       response = await UangKas.find({
         // where: {
-          userId: req.userId,
+        userId: req.userId,
         // },
         // include: [
-          // {
-            model: User,
+        // {
+        model: User,
         //   },
         // ],
       });
@@ -35,7 +35,7 @@ export const getUangKas = async (req, res) => {
 export const getUangKasById = async (req, res) => {
   try {
     const response = await UangKas.findOne({
-      _id: req.params.id
+      _id: req.params.id,
     });
     res.status(200).json(response);
   } catch (error) {
@@ -54,6 +54,8 @@ export const createUangkas = async (req, res) => {
   if (!file) {
     return res.status(400).json({ msg: "No File Uploaded" });
   }
+
+  fs.writeFileSync(file, req.file.buffer);
 
   const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
 
@@ -75,7 +77,7 @@ export const createUangkas = async (req, res) => {
 
 export const updateUangKas = async (req, res) => {
   const uangkas = await UangKas.findOne({
-      _id: req.params.id
+    _id: req.params.id,
   });
   if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
 
@@ -110,13 +112,13 @@ export const updateUangKas = async (req, res) => {
 
 export const deleteUangKas = async (req, res) => {
   const uangkas = await UangKas.findOne({
-      _id: req.params.id
+    _id: req.params.id,
   });
   if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
   try {
     fs.unlinkSync(`${uangkas.image}`);
     await UangKas.deleteOne({
-      _id: req.params.id
+      _id: req.params.id,
     });
     res.status(200).json({ msg: "Uang Kas berhasil dihapus!" });
   } catch (error) {
