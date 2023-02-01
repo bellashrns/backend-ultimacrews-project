@@ -44,7 +44,7 @@ export const getUangKasById = async (req, res) => {
 };
 
 export const createUangkas = async (req, res) => {
-  const { bulan, notes, status, userId } = req.body;
+  const { bulan, notes, status } = req.body;
   let file = req.file.path;
 
   file = file.replace(/\\/g, "/");
@@ -57,10 +57,10 @@ export const createUangkas = async (req, res) => {
 
   // fs.writeFileSync(file, req.file.buffer);
 
-  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
+  const url = `${req.protocol}://${req.get("host")}/tmp/${fileName}`; // "host" bakal jadi domain
 
   const uangkas = await UangKas.create({
-    userId: userId,
+    userId: req.userId,
     image: file,
     url: url,
     bulan: bulan,
