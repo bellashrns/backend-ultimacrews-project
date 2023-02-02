@@ -20,11 +20,16 @@ const UangKas = new mongoose.Schema({
     },
     notes:{
         type: String,
-        required: false
+        required: false,
+        default: ''
     },
     status:{
         type: String,
         required: true
+    },
+    createdAt:{
+        type: Date,
+        default: Date.now
     }
 });
 
