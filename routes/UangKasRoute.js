@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.get('/uangkas', verifyUser , getUangKas);
 router.get('/uangkas/:id', verifyUser, getUangKasById);
-router.post('/uangkas', upload.single('image'), createUangkas);
-// router.post('/uangkas', upload.single('image'), verifyUser, createUangkas);
+// router.post('/uangkas', upload.single('image'), createUangkas);
+router.post('/uangkas', upload.single('image'), verifyUser, createUangkas);
 router.patch('/uangkas/:id', verifyUser, updateUangKas);
 router.delete('/uangkas/:id', verifyUser , adminOnly, deleteUangKas);
 
