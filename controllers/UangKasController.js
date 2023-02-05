@@ -81,24 +81,7 @@ export const updateUangKas = async (req, res) => {
   });
   if (!uangkas) return res.status(404).json({ msg: "Uang Kas not found!" });
 
-  const { bulan, notes, status } = req.body;
-
-  let file = req.file.path;
-
-  if (!file) {
-    return res.status(400).json({ msg: "No File Uploaded" });
-  }
-
-  file = file.replace(/\\/g, "/");
-
-  const fileName = req.file.filename;
-
-  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
-
-  uangkas.image = file;
-  uangkas.url = url;
-  uangkas.bulan = bulan;
-  uangkas.notes = notes;
+  const { status } = req.body;
   uangkas.status = status;
 
   const updatedUangKas = await uangkas.save();
