@@ -57,7 +57,7 @@ export const createUangkas = async (req, res) => {
     return res.status(400).json({ msg: "No File Uploaded" });
   }
 
-  const url = `${req.protocol}://${req.get("host")}/public/images/${fileName}`; // "host" bakal jadi domain
+  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
 
   const uangkas = await UangKas.create({
     userId: userId,
@@ -93,7 +93,7 @@ export const updateUangKas = async (req, res) => {
 
   const fileName = req.file.filename;
 
-  const url = `${req.protocol}://${req.get("host")}/public/images/${fileName}`; // "host" bakal jadi domain
+  const url = `${req.protocol}://${req.get("host")}/images/${fileName}`; // "host" bakal jadi domain
 
   uangkas.image = file;
   uangkas.url = url;
