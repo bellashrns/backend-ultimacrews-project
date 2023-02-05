@@ -18,9 +18,9 @@ export const login = async (req, res) => {
 };
 
 export const Me = async (req, res) => {
-	if (!req.session.userId) {
-		return res.status(401).json({ msg: "Mohon login ke akun anda!" });
-	}
+	// if (!req.session.userId) {
+	// 	return res.status(401).json({ msg: "Mohon login ke akun anda!" });
+	// }
 	const user = await UserModel.findOne({
 		_id: req.session.userId,
 	});
