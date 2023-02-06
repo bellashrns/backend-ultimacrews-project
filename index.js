@@ -38,7 +38,7 @@ app.use(
 			maxAge: 1000 * 60 * 60 * 48,
 			secure: true,
 			sameSite: "none",
-			httpOnly: true, // dont let browser javascript access cookie ever
+			httpOnly: false, // dont let browser javascript access cookie ever
 			ephemeral: true,
 			// delete this cookie while browser close
 		},
